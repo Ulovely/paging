@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>翻页demo-panyh</title>
+		<style>
+			/*翻页*/
+.pagenation {
+    padding: 40px 30px 60px 0;
+    float: right;
+    color: #666;
+    -webkit-touch-callout:none;
+-webkit-user-select:none;
+-khtml-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;}
+
+    .pagenation .pagenum {
+        float: left;
+        min-width: 30px;
+        padding: 3px 5px;
+        text-align: center;
+        margin-right: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 3px;
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+    }
+
+        .pagenation .pagenum.indexpage, .pagenation .pagenum.lastpage, .pagenation .pagenum.nextpage {
+            background: rgba(255,255,255,0);
+            color: #d9cfce;
+        }
+
+            .pagenation .pagenum.indexpage.active, .pagenation .pagenum.lastpage.active, .pagenation .pagenum.nextpage.active {
+                background-color: #f5f5f5;
+                color: #999;
+            }
+
+                .pagenation .pagenum.indexpage.active a, .pagenation .pagenum.lastpage.active a, .pagenation .pagenum.nextpage.active a {
+                    color: #999;
+                }
+
+        .pagenation .pagenum.pagetext, .pagenation .pagenum.totalpage {
+            border-radius: 0px;
+            background: rgba(255,255,255,0);
+            border: none;
+        }
+
+        .pagenation .pagenum a {
+            color: #999;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+    .pagenation .pageswiperbox {
+        min-width: 35px;
+        max-width: 175px;
+        overflow: hidden;
+        word-break: keep-all;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        float: left;
+    }
+
+    .pagenation .pageswiper {
+        width: auto;
+    }
+
+        .pagenation .pageswiper .pagenum {
+            display: inline-block;
+            float: none;
+        }
+
+    .pagenation .pagenum.curpage {
+        background: rgba(255,255,255,0);
+        color: #FE7200;
+        border: none;
+    }
+
+        .pagenation .pagenum.curpage a {
+            color: #FE7200;
+            display: block;
+            width: 100%;
+        }
+
+    .pagenation .pageinput {
+        text-align: center;
+        border: 1px solid #e5e5e5;
+        width: 40px;
+        margin: 0 3px;
+        line-height: 17px;
+        box-sizing: border-box;
+        vertical-align: top;
+    }
+
+    .pagenation .pagesubbtn {
+        background: rgba(255,255,255,0);
+    }
+
+        .pagenation .pagesubbtn a {
+            color: #d9cfce;
+        }
+
+        .pagenation .pagesubbtn.active {
+            background: #f5f5f5;
+        }
+
+        .pagenation .pagesubbtn a {
+            color: #999;
+        }
+		</style>
+	</head>
+	<body>
+		<ul id="pageBox">
+			<li class='list'>1</li>
+			<li class='list'>2</li>
+			<li class='list'>3</li>
+			<li class='list'>4</li>
+			<li class='list'>5</li>
+		</ul>
+		<script typet="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script><!--jquery.js-->
+		<script src="js/paging.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			//纯html切换
+//			$("#pageBox").empty();
+//			for(var i = 1;i<32;i++){
+//				$("#pageBox").append("<li class='list'>"+i+"</li>")
+//			}
+
+			var options = {
+				list:".list",//列表标识
+				currentPage:1,//初始页
+				pageSize:5,//每页列表数
+				listTotal:31,//列表总数（选传），不传为list总数
+				callback:function(currentPage){//翻页回调（可填，可做ajax请求）,不传为纯html切换
+					loadData(ajaxDemo(currentPage))
+				}
+			}
+			$("#pageBox").paging(options)
+			function ajaxDemo(page,pageSize){
+				if(!pageSize)var pageSize = 5;
+				var data = {},arr=[];
+				for(var i = 1;i<=31;i++){
+					arr.push(i);
+					if(i==pageSize){
+						data[1]=arr;
+						arr=[];
+					}else if(i==pageSize*2){
+						data[2]=arr;
+						arr=[];
+					}else if(i==pageSize*3){
+						data[3]=arr;
+						arr=[];
+					}else if(i==pageSize*4){
+						data[4]=arr;
+						arr=[];
+					}else if(i==pageSize*5){
+						data[5]=arr;
+						arr=[];
+					}else if(i==pageSize*6){
+						data[6]=arr;
+						arr=[];
+					}else if(i==31){
+						data[7]=arr;
+						arr=[];
+					}
+				}
+				return data[page];
+			}
+			function loadData(data){
+				console.log("callback")
+				$("#pageBox").empty();
+				for(var i = 0;i<data.length;i++){
+					$("#pageBox").append("<li class='list'>"+data[i]+"</li>");
+				}
+			}
+		</script>
+	</body>
+</html>
